@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Task1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="Task1Model.FK__Students__LevelI__3F466844" FromRole="Level" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Row">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RowName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="Task1Model.FK__Students__RowIID__403A8C7D" FromRole="Row" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="is_active" Type="Boolean" />
+  </EntityType>
+  <EntityContainer Name="Task1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Levels" EntityType="Self.Level" />
+    <EntitySet Name="Rows" EntityType="Self.Row" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Students" EntityType="Task1Model.Student" />
+    <AssociationSet Name="FK__Students__LevelI__3F466844" Association="Task1Model.FK__Students__LevelI__3F466844">
+      <End Role="Level" EntitySet="Levels" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Students__RowIID__403A8C7D" Association="Task1Model.FK__Students__RowIID__403A8C7D">
+      <End Role="Row" EntitySet="Rows" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="Student_ID" />
+    </Key>
+    <Property Name="Student_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Student_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Student_IDNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LevelID" Type="Int32" />
+    <Property Name="RowIID" Type="Int32" />
+    <NavigationProperty Name="Level" Relationship="Task1Model.FK__Students__LevelI__3F466844" FromRole="Student" ToRole="Level" />
+    <NavigationProperty Name="Row" Relationship="Task1Model.FK__Students__RowIID__403A8C7D" FromRole="Student" ToRole="Row" />
+  </EntityType>
+  <Association Name="FK__Students__LevelI__3F466844">
+    <End Type="Task1Model.Level" Role="Level" Multiplicity="0..1" />
+    <End Type="Task1Model.Student" Role="Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="LevelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Students__RowIID__403A8C7D">
+    <End Type="Task1Model.Row" Role="Row" Multiplicity="0..1" />
+    <End Type="Task1Model.Student" Role="Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Row">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="RowIID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
